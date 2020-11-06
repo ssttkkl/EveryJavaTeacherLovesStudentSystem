@@ -3,7 +3,7 @@ package hwl.model.table;
 import hwl.model.Database;
 import hwl.model.ItemSerializer;
 import hwl.model.item.Group;
-import hwl.model.table.IntTable;
+import hwl.model.item.Student;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,6 +20,14 @@ public class Groups extends IntTable<Group> {
         Group g = new Group(id, name);
         put(g);
         return g;
+    }
+
+    @Override
+    public Group remove(Integer id) {
+        Group old = super.remove(id);
+        for (Student s : Database.getInstance().students.get(s -> s.getGroupId() == id))
+            Database.getInstance().students.remove(s.getId());
+        return old;
     }
 
     private final ItemSerializer<Group> itemSerializer = new ItemSerializer<>() {

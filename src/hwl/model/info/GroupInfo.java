@@ -22,15 +22,19 @@ public class GroupInfo {
             return new GroupInfo(groupId, 0, null);
         else {
             double totalScore = 0;
-            int noScoreCount = 0;
+            int realScoreCount = students.size();
             for (Student s : students) {
                 Double d = StudentInfo.calc(s.getId()).averageScore;
                 if (d != null)
                     totalScore += d;
                 else
-                    noScoreCount++;
+                    realScoreCount--;
             }
-            return new GroupInfo(groupId, students.size(), totalScore / (students.size() - noScoreCount));
+
+            if (realScoreCount > 0)
+                return new GroupInfo(groupId, students.size(), totalScore / realScoreCount);
+            else
+                return new GroupInfo(groupId, 0, null);
         }
     }
 }

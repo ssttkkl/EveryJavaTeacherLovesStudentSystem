@@ -79,7 +79,7 @@ public class CourseManageController implements ICourseManageController {
         int index = view.getSelectedRow();
         Course c = tableModel.get(index);
         if (view.showConfirmRemoveCourseDialog())
-            Database.getInstance().groups.remove(c.getId());
+            Database.getInstance().courses.remove(c.getId());
     }
 
     @Override

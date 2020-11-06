@@ -3,6 +3,7 @@ package hwl.model.table;
 import hwl.model.Database;
 import hwl.model.ItemSerializer;
 import hwl.model.Sex;
+import hwl.model.item.Score;
 import hwl.model.item.Student;
 
 import java.io.DataInputStream;
@@ -20,6 +21,14 @@ public class Students extends IntTable<Student> {
         Student s = new Student(id, name, number, sex, groupId);
         put(s);
         return s;
+    }
+
+    @Override
+    public Student remove(Integer id) {
+        Student old = super.remove(id);
+        for (Score s : Database.getInstance().scores.get(s -> s.getStudentId() == id))
+            Database.getInstance().scores.remove(s.getId());
+        return old;
     }
 
     private final ItemSerializer<Student> itemSerializer = new ItemSerializer<>() {

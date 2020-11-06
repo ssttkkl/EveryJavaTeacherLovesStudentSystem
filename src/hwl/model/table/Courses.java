@@ -3,6 +3,8 @@ package hwl.model.table;
 import hwl.model.Database;
 import hwl.model.ItemSerializer;
 import hwl.model.item.Course;
+import hwl.model.item.Score;
+import hwl.model.item.Student;
 import hwl.model.table.IntTable;
 
 import java.io.DataInputStream;
@@ -20,6 +22,14 @@ public class Courses extends IntTable<Course> {
         Course c = new Course(id, name, number, point);
         put(c);
         return c;
+    }
+
+    @Override
+    public Course remove(Integer id) {
+        Course old = super.remove(id);
+        for (Score s : Database.getInstance().scores.get(s -> s.getCourseId() == id))
+            Database.getInstance().scores.remove(s.getId());
+        return old;
     }
 
     private final ItemSerializer<Course> itemSerializer = new ItemSerializer<>() {
