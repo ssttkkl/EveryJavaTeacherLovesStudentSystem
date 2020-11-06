@@ -5,13 +5,10 @@ import hwl.constraint.IScoreManageController;
 import hwl.constraint.IScoreManageView;
 import hwl.controller.ScoreManageController;
 import hwl.model.item.Score;
-import hwl.view.utils.DisplayableListCellRenderer;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class ScoreManageWindow extends JFrame implements IScoreManageView {
 
@@ -89,7 +86,7 @@ public class ScoreManageWindow extends JFrame implements IScoreManageView {
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 null,
-                String.format("%.1f", s.getPoint()));
+                String.format("%.1f", s.point));
     }
 
     @Override

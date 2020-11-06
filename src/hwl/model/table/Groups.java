@@ -16,7 +16,7 @@ public class Groups extends IntTable<Group> {
     }
 
     public Group emplace(String name) {
-        int id = getNewId();
+        int id = newPrimitiveKey();
         Group g = new Group(id, name);
         put(g);
         return g;
@@ -25,8 +25,8 @@ public class Groups extends IntTable<Group> {
     @Override
     public Group remove(Integer id) {
         Group old = super.remove(id);
-        for (Student s : Database.getInstance().students.get(s -> s.getGroupId() == id))
-            Database.getInstance().students.remove(s.getId());
+        for (Student s : Database.getInstance().students.get(s -> s.groupId == id))
+            Database.getInstance().students.remove(s.id);
         return old;
     }
 
@@ -41,8 +41,8 @@ public class Groups extends IntTable<Group> {
 
         @Override
         public void write(DataOutputStream dos, Group item) throws IOException {
-            dos.writeInt(item.getId());
-            dos.writeUTF(item.getName());
+            dos.writeInt(item.id);
+            dos.writeUTF(item.name);
         }
     };
 

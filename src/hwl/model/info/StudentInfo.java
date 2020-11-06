@@ -22,15 +22,15 @@ public class StudentInfo {
     }
 
     public static StudentInfo calc(int studentId) {
-        List<Score> scores = Database.getInstance().scores.get(s -> s.getStudentId() == studentId);
+        List<Score> scores = Database.getInstance().scores.get(s -> s.studentId == studentId);
         if (scores.isEmpty())
             return new StudentInfo(studentId, 0, 0, null, 0);
         else {
             double totalPoint = 0, totalScore = 0;
             for (Score s : scores) {
                 Course c = s.getCourse();
-                totalPoint += c.getPoint();
-                totalScore += s.getPoint();
+                totalPoint += c.point;
+                totalScore += s.point;
             }
             return new StudentInfo(studentId, scores.size(), totalScore, totalScore / scores.size(), totalPoint);
         }

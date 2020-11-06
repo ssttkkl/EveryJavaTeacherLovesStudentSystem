@@ -28,11 +28,11 @@ public class CourseManageController implements ICourseManageController {
         tableModel = DataSetModelFactory.newTableModel(
                 new String[]{"课程名称", "课程编号", "学分", "平均成绩"},
                 new Function[]{
-                        c -> ((Course) c).getName(),
-                        c -> ((Course) c).getNumber(),
-                        c -> ((Course) c).getPoint(),
+                        c -> ((Course) c).name,
+                        c -> ((Course) c).number,
+                        c -> ((Course) c).point,
                         c -> {
-                            CourseInfo info = courseInfos.get(((Course) c).getId());
+                            CourseInfo info = courseInfos.get(((Course) c).id);
                             return info != null ? info.averageScore : null;
                         }
                 },
@@ -55,7 +55,7 @@ public class CourseManageController implements ICourseManageController {
         courseInfos.clear();
         for (int i = 0; i < tableModel.size(); i++) {
             Course c = tableModel.get(i);
-            courseInfos.put(c.getId(), CourseInfo.calc(c.getId()));
+            courseInfos.put(c.id, CourseInfo.calc(c.getPrimitiveKey()));
         }
         tableModel.notifyColumnChanged(3);
     }
@@ -71,7 +71,7 @@ public class CourseManageController implements ICourseManageController {
         int index = view.getSelectedRow();
         Course c = tableModel.get(index);
         view.showEditCourseDialog(c, (name, number, point) ->
-                Database.getInstance().courses.put(new Course(c.getId(), name, number, point)));
+                Database.getInstance().courses.put(new Course(c.id, name, number, point)));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class CourseManageController implements ICourseManageController {
         int index = view.getSelectedRow();
         Course c = tableModel.get(index);
         if (view.showConfirmRemoveCourseDialog())
-            Database.getInstance().courses.remove(c.getId());
+            Database.getInstance().courses.remove(c.id);
     }
 
     @Override

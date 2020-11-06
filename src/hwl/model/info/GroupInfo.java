@@ -17,14 +17,14 @@ public class GroupInfo {
     }
 
     public static GroupInfo calc(int groupId) {
-        List<Student> students = Database.getInstance().students.get(s -> s.getGroupId() == groupId);
+        List<Student> students = Database.getInstance().students.get(s -> s.groupId == groupId);
         if (students.isEmpty())
             return new GroupInfo(groupId, 0, null);
         else {
             double totalScore = 0;
             int realScoreCount = students.size();
             for (Student s : students) {
-                Double d = StudentInfo.calc(s.getId()).averageScore;
+                Double d = StudentInfo.calc(s.id).averageScore;
                 if (d != null)
                     totalScore += d;
                 else

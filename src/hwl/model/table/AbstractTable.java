@@ -51,13 +51,13 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
     }
 
     @Override
-    public T get(P id) {
-        return data.get(id);
+    public T get(P primitiveKey) {
+        return data.get(primitiveKey);
     }
 
     @Override
-    public boolean contains(P id) {
-        return data.containsKey(id);
+    public boolean contains(P primitiveKey) {
+        return data.containsKey(primitiveKey);
     }
 
     @Override
@@ -73,7 +73,7 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
 
     @Override
     public T put(T item) {
-        T old = data.put(item.getId(), item);
+        T old = data.put(item.getPrimitiveKey(), item);
 
         System.out.println("Put: " + item.toString());
 
@@ -91,8 +91,8 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
     }
 
     @Override
-    public T remove(P id) {
-        T old = data.remove(id);
+    public T remove(P primitiveKey) {
+        T old = data.remove(primitiveKey);
 
         if (old != null) {
             System.out.println("Remove: " + old.toString());
@@ -142,7 +142,7 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
             old = new ArrayList<>(data.values());
             data.clear();
             for (T t : list) {
-                data.put(t.getId(), t);
+                data.put(t.getPrimitiveKey(), t);
             }
         }
 

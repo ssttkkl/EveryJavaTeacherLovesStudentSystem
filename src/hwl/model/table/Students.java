@@ -17,7 +17,7 @@ public class Students extends IntTable<Student> {
     }
 
     public Student emplace(String name, String number, Sex sex, int groupId) {
-        int id = getNewId();
+        int id = newPrimitiveKey();
         Student s = new Student(id, name, number, sex, groupId);
         put(s);
         return s;
@@ -26,8 +26,8 @@ public class Students extends IntTable<Student> {
     @Override
     public Student remove(Integer id) {
         Student old = super.remove(id);
-        for (Score s : Database.getInstance().scores.get(s -> s.getStudentId() == id))
-            Database.getInstance().scores.remove(s.getId());
+        for (Score s : Database.getInstance().scores.get(s -> s.studentId == id))
+            Database.getInstance().scores.remove(s.getPrimitiveKey());
         return old;
     }
 
@@ -45,11 +45,11 @@ public class Students extends IntTable<Student> {
 
         @Override
         public void write(DataOutputStream dos, Student item) throws IOException {
-            dos.writeInt(item.getId());
-            dos.writeUTF(item.getName());
-            dos.writeUTF(item.getNumber());
-            dos.writeUTF(item.getSex().name());
-            dos.writeInt(item.getGroupId());
+            dos.writeInt(item.id);
+            dos.writeUTF(item.name);
+            dos.writeUTF(item.number);
+            dos.writeUTF(item.sex.name());
+            dos.writeInt(item.groupId);
         }
     };
 

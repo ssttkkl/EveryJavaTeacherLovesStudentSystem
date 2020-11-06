@@ -14,17 +14,17 @@ public class Score implements Item<IntPair>, Displayable {
     /**
      * 该成绩所属学生的ID
      */
-    private final int studentId;
+    public final int studentId;
 
     /**
      * 该成绩所属课程的ID
      */
-    private final int courseId;
+    public final int courseId;
 
     /**
      * 成绩得分
      */
-    private final double point;
+    public final double point;
 
     public Score(int studentId, int courseId, double point) {
         this.studentId = studentId;
@@ -33,34 +33,22 @@ public class Score implements Item<IntPair>, Displayable {
     }
 
     @Override
-    public IntPair getId() {
+    public IntPair getPrimitiveKey() {
         return new IntPair(studentId, courseId);
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public int getCourseId() {
-        return courseId;
-    }
-
-    public double getPoint() {
-        return point;
     }
 
     @Override
     public String getDisplayText() {
-        Course c = Database.getInstance().courses.get(getCourseId());
-        return String.format("%s：%.1f", c.getName(), getPoint());
+        Course c = Database.getInstance().courses.get(courseId);
+        return String.format("%s：%.1f", c.name, point);
     }
 
     public Student getStudent() {
-        return Database.getInstance().students.get(this.getStudentId());
+        return Database.getInstance().students.get(studentId);
     }
 
     public Course getCourse() {
-        return Database.getInstance().courses.get(this.getCourseId());
+        return Database.getInstance().courses.get(courseId);
     }
 
     @Override

@@ -28,9 +28,9 @@ public class GroupManageController implements IGroupManageController {
         tableModel = DataSetModelFactory.newTableModel(
                 new String[]{"班级名称", "平均成绩"},
                 new Function[]{
-                        g -> ((Group) g).getName(),
+                        g -> ((Group) g).name,
                         g -> {
-                            GroupInfo info = groupInfos.get(((Group) g).getId());
+                            GroupInfo info = groupInfos.get(((Group) g).id);
                             return info != null ? info.averageScore : null;
                         }
                 },
@@ -48,7 +48,7 @@ public class GroupManageController implements IGroupManageController {
 
     @Override
     public void onDoubleClickTable(int index) {
-        int groupId = tableModel.get(index).getId();
+        int groupId = tableModel.get(index).id;
         view.showStudentManageWindow(groupId);
     }
 
@@ -57,7 +57,7 @@ public class GroupManageController implements IGroupManageController {
         groupInfos.clear();
         for (int i = 0; i < tableModel.size(); i++) {
             Group s = tableModel.get(i);
-            groupInfos.put(s.getId(), GroupInfo.calc(s.getId()));
+            groupInfos.put(s.id, GroupInfo.calc(s.id));
         }
         tableModel.notifyColumnChanged(1);
     }
@@ -74,9 +74,9 @@ public class GroupManageController implements IGroupManageController {
         int index = view.getSelectedRow();
         Group g = tableModel.get(index);
 
-        String name = this.view.showRenameGroupDialog(g.getName());
+        String name = this.view.showRenameGroupDialog(g.name);
         if (name != null)
-            Database.getInstance().groups.put(new Group(g.getId(), name));
+            Database.getInstance().groups.put(new Group(g.id, name));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class GroupManageController implements IGroupManageController {
         Group g = tableModel.get(index);
 
         if (this.view.showConfirmRemoveGroupDialog())
-            Database.getInstance().groups.remove(g.getId());
+            Database.getInstance().groups.remove(g.id);
     }
 
     @Override

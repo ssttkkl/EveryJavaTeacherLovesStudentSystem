@@ -4,8 +4,6 @@ import hwl.model.Database;
 import hwl.model.ItemSerializer;
 import hwl.model.item.Course;
 import hwl.model.item.Score;
-import hwl.model.item.Student;
-import hwl.model.table.IntTable;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,7 +16,7 @@ public class Courses extends IntTable<Course> {
     }
 
     public Course emplace(String name, String number, double point) {
-        int id = getNewId();
+        int id = newPrimitiveKey();
         Course c = new Course(id, name, number, point);
         put(c);
         return c;
@@ -27,8 +25,8 @@ public class Courses extends IntTable<Course> {
     @Override
     public Course remove(Integer id) {
         Course old = super.remove(id);
-        for (Score s : Database.getInstance().scores.get(s -> s.getCourseId() == id))
-            Database.getInstance().scores.remove(s.getId());
+        for (Score s : Database.getInstance().scores.get(s -> s.courseId == id))
+            Database.getInstance().scores.remove(s.getPrimitiveKey());
         return old;
     }
 
@@ -45,10 +43,10 @@ public class Courses extends IntTable<Course> {
 
         @Override
         public void write(DataOutputStream dos, Course item) throws IOException {
-            dos.writeInt(item.getId());
-            dos.writeUTF(item.getName());
-            dos.writeUTF(item.getNumber());
-            dos.writeDouble(item.getPoint());
+            dos.writeInt(item.id);
+            dos.writeUTF(item.name);
+            dos.writeUTF(item.number);
+            dos.writeDouble(item.point);
         }
     };
 

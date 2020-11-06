@@ -120,7 +120,7 @@ public class StudentManageWindow extends JFrame implements IStudentManageView {
     @Override
     public void showEditStudentDialog(Student s, IEditStudentView.OnSaveListener callback) {
         EditStudentDialog d = new EditStudentDialog(this, EditStudentDialog.EDIT,
-                s.getName(), s.getNumber(), s.getSex(), callback);
+                s.name, s.number, s.sex, callback);
         d.setVisible(true);
     }
 

@@ -20,7 +20,7 @@ public class AddScoreController implements IAddScoreController {
         this.callback = callback;
 
         this.view.setCourseComboBoxModel(DataSetModelFactory.newComboBoxModel(Database.getInstance().courses,
-                c -> !Database.getInstance().scores.contains(new IntPair(studentId, c.getId()))));
+                c -> !Database.getInstance().scores.contains(new IntPair(studentId, c.id))));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class AddScoreController implements IAddScoreController {
                 if (c == null)
                     throw new IllegalStateException("请选择课程");
 
-                callback.onSave(c.getId(), d);
+                callback.onSave(c.id, d);
                 view.close();
             } catch (IllegalStateException exc) {
                 view.showErrorDialog(exc.getMessage());

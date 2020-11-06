@@ -17,7 +17,7 @@ public abstract class DataSetModel<P, T extends Item<P>> {
         this.primitiveComparator = primitiveComparator;
 
         List<T> sorted = initialItems.stream()
-                .sorted(Comparator.comparing(Item::getId, primitiveComparator))
+                .sorted(Comparator.comparing(Item::getPrimitiveKey, primitiveComparator))
                 .collect(Collectors.toList());
         data.addAll(sorted);
     }
@@ -36,7 +36,7 @@ public abstract class DataSetModel<P, T extends Item<P>> {
         int begin = 0, end = data.size();
         while (begin < end) {
             int mid = (begin + end) / 2;
-            P midId = data.get(mid).getId();
+            P midId = data.get(mid).getPrimitiveKey();
             if (primitiveComparator.compare(midId, id) >= 0) {
                 end = mid;
             } else {
@@ -47,8 +47,8 @@ public abstract class DataSetModel<P, T extends Item<P>> {
     }
 
     void insert(T item) {
-        int index = lowerBound(item.getId());
-        if (index < data.size() && data.get(index).getId().equals(item.getId()))
+        int index = lowerBound(item.getPrimitiveKey());
+        if (index < data.size() && data.get(index).getPrimitiveKey().equals(item.getPrimitiveKey()))
             throw new IllegalArgumentException("ID already exists.");
 
         data.add(index, item);
@@ -57,7 +57,7 @@ public abstract class DataSetModel<P, T extends Item<P>> {
 
     void modify(P id, T newItem) {
         int index = lowerBound(id);
-        if (index >= data.size() || !data.get(index).getId().equals(id))
+        if (index >= data.size() || !data.get(index).getPrimitiveKey().equals(id))
             throw new IllegalArgumentException("ID does not exist.");
 
         data.set(index, newItem);
@@ -66,7 +66,7 @@ public abstract class DataSetModel<P, T extends Item<P>> {
 
     void remove(P id) {
         int index = lowerBound(id);
-        if (index >= data.size() || !data.get(index).getId().equals(id))
+        if (index >= data.size() || !data.get(index).getPrimitiveKey().equals(id))
             throw new IllegalArgumentException("ID does not exist.");
 
         data.remove(index);

@@ -119,9 +119,9 @@ public class DataSetModelFactory {
                 boolean newTest = filter.test(newItem);
                 if (oldTest) {
                     if (newTest)
-                        model.modify(newItem.getId(), newItem);
+                        model.modify(newItem.getPrimitiveKey(), newItem);
                     else
-                        model.remove(newItem.getId());
+                        model.remove(newItem.getPrimitiveKey());
                 } else if (newTest)
                     model.insert(newItem);
             }
@@ -129,7 +129,7 @@ public class DataSetModelFactory {
             @Override
             public void onRemove(T removedItem) {
                 if (filter.test(removedItem))
-                    model.remove(removedItem.getId());
+                    model.remove(removedItem.getPrimitiveKey());
             }
         });
     }

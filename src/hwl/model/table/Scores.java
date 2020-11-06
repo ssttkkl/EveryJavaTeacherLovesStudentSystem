@@ -4,7 +4,6 @@ import hwl.model.Database;
 import hwl.model.IntPair;
 import hwl.model.ItemSerializer;
 import hwl.model.item.Score;
-import hwl.model.table.AbstractTable;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,9 +33,9 @@ public class Scores extends AbstractTable<IntPair, Score> {
 
         @Override
         public void write(DataOutputStream dos, Score item) throws IOException {
-            dos.writeInt(item.getStudentId());
-            dos.writeInt(item.getCourseId());
-            dos.writeDouble(item.getPoint());
+            dos.writeInt(item.studentId);
+            dos.writeInt(item.courseId);
+            dos.writeDouble(item.point);
         }
     };
 

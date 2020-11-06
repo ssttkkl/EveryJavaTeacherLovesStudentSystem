@@ -14,12 +14,12 @@ public class Group implements Item<Integer>, Displayable {
     /**
      * 在数据表中的唯一标识
      */
-    private final int id;
+    public final int id;
 
     /**
      * 班级名称
      */
-    private final String name;
+    public final String name;
 
     public Group(int id, String name) {
         this.id = id;
@@ -27,21 +27,17 @@ public class Group implements Item<Integer>, Displayable {
     }
 
     @Override
-    public Integer getId() {
+    public Integer getPrimitiveKey() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
     public String getDisplayText() {
-        return getName();
+        return name;
     }
 
     public Collection<Student> getStudents() {
-        return Database.getInstance().students.get(stu -> stu.getGroupId() == this.getId());
+        return Database.getInstance().students.get(stu -> stu.groupId == this.id);
     }
 
     @Override

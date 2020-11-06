@@ -27,10 +27,10 @@ public class DatabaseTest {
         };
 
         Student[] students = new Student[]{
-                db.students.emplace("22", "222", Sex.MALE, groups[0].getId()),
-                db.students.emplace("33", "333", Sex.FEMALE, groups[0].getId()),
-                db.students.emplace("66", "666", Sex.MALE, groups[1].getId()),
-                db.students.emplace("99", "999", Sex.FEMALE, groups[1].getId())
+                db.students.emplace("22", "222", Sex.MALE, groups[0].getPrimitiveKey()),
+                db.students.emplace("33", "333", Sex.FEMALE, groups[0].getPrimitiveKey()),
+                db.students.emplace("66", "666", Sex.MALE, groups[1].getPrimitiveKey()),
+                db.students.emplace("99", "999", Sex.FEMALE, groups[1].getPrimitiveKey())
         };
 
         Course[] courses = new Course[]{
@@ -39,10 +39,10 @@ public class DatabaseTest {
         };
 
         Score[] scores = new Score[]{
-                db.scores.emplace(students[0].getId(), courses[0].getId(), 95.0),
-                db.scores.emplace(students[1].getId(), courses[0].getId(), 96.1),
-                db.scores.emplace(students[1].getId(), courses[1].getId(), 96.2),
-                db.scores.emplace(students[3].getId(), courses[1].getId(), 97.1)
+                db.scores.emplace(students[0].getPrimitiveKey(), courses[0].getPrimitiveKey(), 95.0),
+                db.scores.emplace(students[1].getPrimitiveKey(), courses[0].getPrimitiveKey(), 96.1),
+                db.scores.emplace(students[1].getPrimitiveKey(), courses[1].getPrimitiveKey(), 96.2),
+                db.scores.emplace(students[3].getPrimitiveKey(), courses[1].getPrimitiveKey(), 97.1)
         };
 
         db.postReload();

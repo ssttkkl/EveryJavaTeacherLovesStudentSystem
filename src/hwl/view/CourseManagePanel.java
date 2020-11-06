@@ -84,7 +84,7 @@ public class CourseManagePanel extends JPanel implements ICourseManageView {
     @Override
     public void showEditCourseDialog(Course s, IEditCourseView.OnSaveListener callback) {
         EditCourseDialog d = new EditCourseDialog(parent, IEditCourseView.EDIT,
-                s.getName(), s.getNumber(), s.getPoint(), callback);
+                s.name, s.number, s.point, callback);
         d.setVisible(true);
     }
 

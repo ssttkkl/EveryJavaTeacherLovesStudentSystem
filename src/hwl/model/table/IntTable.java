@@ -23,14 +23,14 @@ public abstract class IntTable<T extends Item<Integer>> extends AbstractTable<In
      *
      * @return 下一个自增ID
      */
-    protected int getNewId() {
+    protected int newPrimitiveKey() {
         return counter.getAndIncrement();
     }
 
     @Override
     public void read(DataInputStream dis) throws IOException {
         super.read(dis);
-        int newCounter = this.getAll().stream().mapToInt(Item<Integer>::getId).max().orElse(-1) + 1;
+        int newCounter = this.getAll().stream().mapToInt(Item<Integer>::getPrimitiveKey).max().orElse(-1) + 1;
         counter.set(newCounter);
     }
 }

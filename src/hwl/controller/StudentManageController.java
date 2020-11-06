@@ -34,24 +34,24 @@ public class StudentManageController implements IStudentManageController {
         this.view = view;
         this.groupId = groupId;
 
-        this.view.setTitle(String.format("管理学生（班级：%s）", getGroup().getName()));
+        this.view.setTitle(String.format("管理学生（班级：%s）", getGroup().name));
 
         tableModel = DataSetModelFactory.newTableModel(
                 new String[]{"姓名", "学号", "性别", "总成绩", "平均成绩", "总学分"},
                 new Function[]{
-                        stu -> ((Student) stu).getName(),
-                        stu -> ((Student) stu).getNumber(),
-                        stu -> ((Student) stu).getSex().getDisplayText(),
+                        stu -> ((Student) stu).name,
+                        stu -> ((Student) stu).number,
+                        stu -> ((Student) stu).sex.getDisplayText(),
                         stu -> {
-                            StudentInfo info = studentInfos.get(((Student) stu).getId());
+                            StudentInfo info = studentInfos.get(((Student) stu).id);
                             return info != null ? info.totalScore : null;
                         },
                         stu -> {
-                            StudentInfo info = studentInfos.get(((Student) stu).getId());
+                            StudentInfo info = studentInfos.get(((Student) stu).id);
                             return info != null ? info.averageScore : null;
                         },
                         stu -> {
-                            StudentInfo info = studentInfos.get(((Student) stu).getId());
+                            StudentInfo info = studentInfos.get(((Student) stu).id);
                             return info != null ? info.totalPoint : null;
                         }
                 },
@@ -65,7 +65,7 @@ public class StudentManageController implements IStudentManageController {
                 },
                 Database.getInstance().students,
                 Comparator.comparing(o -> o),
-                stu -> stu.getGroupId() == groupId
+                stu -> stu.groupId == groupId
         );
         this.view.setTableModel(tableModel);
 
@@ -76,7 +76,7 @@ public class StudentManageController implements IStudentManageController {
     @Override
     public void onDoubleClickTable(int row) {
         Student s = tableModel.get(row);
-        view.showScoreManageWindow(s.getId());
+        view.showScoreManageWindow(s.id);
     }
 
     @Override
@@ -89,8 +89,7 @@ public class StudentManageController implements IStudentManageController {
     public void onClickEditButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Student s = tableModel.get(index);
-        view.showEditStudentDialog(s, (name, number, sex) ->
-                Database.getInstance().students.put(new Student(s.getId(), name, number, sex, s.getGroupId())));
+        view.showEditStudentDialog(s, (name, number, sex) -> Database.getInstance().students.put(new Student(s.id, name, number, sex, s.groupId)));
     }
 
     @Override
@@ -98,7 +97,7 @@ public class StudentManageController implements IStudentManageController {
         int index = view.getSelectedRow();
         Student s = tableModel.get(index);
         if (s != null && view.showConfirmRemoveStudentDialog()) {
-            Database.getInstance().students.remove(s.getId());
+            Database.getInstance().students.remove(s.id);
         }
     }
 
@@ -113,7 +112,7 @@ public class StudentManageController implements IStudentManageController {
         studentInfos.clear();
         for (int i = 0; i < tableModel.size(); i++) {
             Student s = tableModel.get(i);
-            studentInfos.put(s.getId(), StudentInfo.calc(s.getId()));
+            studentInfos.put(s.id, StudentInfo.calc(s.id));
         }
         tableModel.notifyColumnChanged(3);
         tableModel.notifyColumnChanged(4);

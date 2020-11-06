@@ -17,13 +17,13 @@ public class CourseInfo {
     }
 
     public static CourseInfo calc(int courseId) {
-        List<Score> scores = Database.getInstance().scores.get(s -> s.getCourseId() == courseId);
+        List<Score> scores = Database.getInstance().scores.get(s -> s.courseId == courseId);
         if (scores.isEmpty())
             return new CourseInfo(courseId, 0, 0);
         else {
             double totalScore = 0;
             for (Score s : scores) {
-                totalScore += s.getPoint();
+                totalScore += s.point;
             }
             return new CourseInfo(courseId, scores.size(), totalScore / scores.size());
         }

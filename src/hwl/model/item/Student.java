@@ -15,27 +15,27 @@ public class Student implements Item<Integer>, Displayable {
     /**
      * 在数据表中的唯一标识
      */
-    private final int id;
+    public final int id;
 
     /**
      * 姓名
      */
-    private final String name;
+    public final String name;
 
     /**
      * 学号
      */
-    private final String number;
+    public final String number;
 
     /**
      * 学号
      */
-    private final Sex sex;
+    public final Sex sex;
 
     /**
      * 所属班级ID
      */
-    private final int groupId;
+    public final int groupId;
 
     public Student(int id, String name, String number, Sex sex, int groupId) {
         this.id = id;
@@ -46,37 +46,21 @@ public class Student implements Item<Integer>, Displayable {
     }
 
     @Override
-    public Integer getId() {
+    public Integer getPrimitiveKey() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
-    public int getGroupId() {
-        return groupId;
     }
 
     @Override
     public String getDisplayText() {
-        return String.format("%s（学号：%s，性别：%s）", getName(), getNumber(), getSex().getDisplayText());
+        return String.format("%s（学号：%s，性别：%s）", name, number, sex.getDisplayText());
     }
 
     public Group getGroup() {
-        return Database.getInstance().groups.get(this.getGroupId());
+        return Database.getInstance().groups.get(groupId);
     }
 
     public Collection<Score> getScores() {
-        return Database.getInstance().scores.get(sc -> sc.getStudentId() == this.getId());
+        return Database.getInstance().scores.get(sc -> sc.studentId == this.id);
     }
 
     @Override

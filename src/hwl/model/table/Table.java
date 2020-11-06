@@ -66,27 +66,27 @@ public interface Table<P, T extends Item<P>> {
      */
     int size();
 
-    boolean contains(P id);
+    boolean contains(P primitiveKey);
 
     /**
      * 获取数据项
      *
-     * @param id 数据项ID
+     * @param primitiveKey 数据项主键
      * @return 数据项，若不存在则为null
      */
-    T get(P id);
+    T get(P primitiveKey);
 
     /**
      * 获取符合条件的数据项
      *
-     * @return 所有符合条件的数据项组成的列表，按ID升序排序
+     * @return 所有符合条件的数据项组成的列表，按主键升序排序
      */
     List<T> get(Predicate<? super T> predicate);
 
     /**
      * 获取所有数据项
      *
-     * @return 所有数据项组成的列表，按ID升序排序
+     * @return 所有数据项组成的列表，按主键升序排序
      */
     List<T> getAll();
 
@@ -101,10 +101,10 @@ public interface Table<P, T extends Item<P>> {
     /**
      * 删除数据项
      *
-     * @param id 数据项ID
+     * @param primitiveKey 数据项主键
      * @return 被删除的数据项
      */
-    T remove(P id);
+    T remove(P primitiveKey);
 
     /**
      * 将数据表写入DataOutputStream

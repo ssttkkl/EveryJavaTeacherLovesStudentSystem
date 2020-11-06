@@ -14,22 +14,22 @@ public class Course implements Item<Integer>, Displayable {
     /**
      * 在数据表中的唯一标识
      */
-    private final int id;
+    public final int id;
 
     /**
      * 课程名称
      */
-    private final String name;
+    public final String name;
 
     /**
      * 课程编号
      */
-    private final String number;
+    public final String number;
 
     /**
      * 课程学分
      */
-    private final double point;
+    public final double point;
 
     public Course(int id, String name, String number, double point) {
         this.id = id;
@@ -39,29 +39,17 @@ public class Course implements Item<Integer>, Displayable {
     }
 
     @Override
-    public Integer getId() {
+    public Integer getPrimitiveKey() {
         return id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getPoint() {
-        return point;
     }
 
     @Override
     public String getDisplayText() {
-        return String.format("%s（课程编号：%s，学分：%.1f）", getName(), getNumber(), getPoint());
+        return String.format("%s（课程编号：%s，学分：%.1f）", name, number, point);
     }
 
     public Collection<Score> getScores() {
-        return Database.getInstance().scores.get(sc -> sc.getCourseId() == this.getId());
+        return Database.getInstance().scores.get(sc -> sc.courseId == this.id);
     }
 
     @Override

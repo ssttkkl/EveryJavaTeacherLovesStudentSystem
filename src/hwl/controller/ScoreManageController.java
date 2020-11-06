@@ -33,10 +33,10 @@ public class ScoreManageController implements IScoreManageController {
         tableModel = DataSetModelFactory.newTableModel(
                 new String[]{"课程名称", "课程编号", "学分", "成绩"},
                 new Function[]{
-                        s -> ((Score) s).getCourse().getName(),
-                        s -> ((Score) s).getCourse().getNumber(),
-                        s -> ((Score) s).getCourse().getPoint(),
-                        s -> ((Score) s).getPoint()
+                        s -> ((Score) s).getCourse().name,
+                        s -> ((Score) s).getCourse().number,
+                        s -> ((Score) s).getCourse().point,
+                        s -> ((Score) s).point
                 },
                 new Class[]{
                         String.class,
@@ -46,7 +46,7 @@ public class ScoreManageController implements IScoreManageController {
                 },
                 Database.getInstance().scores,
                 Comparator.comparing(o -> o),
-                s -> s.getStudentId() == studentId
+                s -> s.studentId == studentId
         );
         this.view.setTableModel(tableModel);
 
@@ -71,7 +71,7 @@ public class ScoreManageController implements IScoreManageController {
 
         try {
             double point = Double.parseDouble(pointStr);
-            Database.getInstance().scores.emplace(s.getStudentId(), s.getCourseId(), point);
+            Database.getInstance().scores.emplace(s.studentId, s.courseId, point);
         } catch (NumberFormatException exception) {
             view.showErrorDialog("请输入正确的成绩");
         }
@@ -83,7 +83,7 @@ public class ScoreManageController implements IScoreManageController {
         Score s = tableModel.get(index);
 
         if (s != null && view.showConfirmRemoveDialog()) {
-            Database.getInstance().scores.remove(s.getId());
+            Database.getInstance().scores.remove(s.getPrimitiveKey());
         }
     }
 
