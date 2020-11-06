@@ -3,8 +3,8 @@ package hwl.model;
 import java.util.Objects;
 
 public class IntPair implements Comparable<IntPair> {
-    public int first;
-    public int second;
+    public final int first;
+    public final int second;
 
     public IntPair(int first, int second) {
         this.first = first;

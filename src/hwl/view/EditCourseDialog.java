@@ -11,14 +11,9 @@ import static javax.swing.GroupLayout.Alignment.*;
 
 public class EditCourseDialog extends JDialog implements IEditCourseView {
 
-    private final IEditCourseController controller;
-
     private final JTextField nameTextField = new JTextField("", 15);
     private final JTextField numberTextField = new JTextField("", 15);
     private final JTextField pointTextField = new JTextField("", 15);
-
-    private final JButton okButton = new JButton("确定");
-    private final JButton cancelButton = new JButton("取消");
 
     public EditCourseDialog(Frame owner, int mode, OnSaveListener callback) {
         this(owner, mode, "", "", 0.0, callback);
@@ -27,7 +22,7 @@ public class EditCourseDialog extends JDialog implements IEditCourseView {
     public EditCourseDialog(Frame owner, int mode, String name, String number, double point, OnSaveListener callback) {
         super(owner, "编辑学生信息", true);
 
-        controller = new EditCourseController(this, mode, callback);
+        IEditCourseController controller = new EditCourseController(this, mode, callback);
 
         Container mPanel = getContentPane();
 
@@ -66,8 +61,10 @@ public class EditCourseDialog extends JDialog implements IEditCourseView {
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new FlowLayout());
 
+        JButton okButton = new JButton("确定");
         okButton.addActionListener(controller::onClickOkButton);
         optPanel.add(okButton);
+        JButton cancelButton = new JButton("取消");
         cancelButton.addActionListener(controller::onClickCancelButton);
         optPanel.add(cancelButton);
 

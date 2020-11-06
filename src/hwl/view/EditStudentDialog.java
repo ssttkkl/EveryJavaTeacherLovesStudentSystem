@@ -13,14 +13,9 @@ import static javax.swing.GroupLayout.Alignment.*;
 
 public class EditStudentDialog extends JDialog implements IEditStudentView {
 
-    private final IEditStudentController controller;
-
     private final JTextField nameTextField = new JTextField("", 15);
     private final JTextField numberTextField = new JTextField("", 15);
     private final JComboBox<Sex> sexComboBox = new JComboBox<>(Sex.values());
-
-    private final JButton okButton = new JButton("确定");
-    private final JButton cancelButton = new JButton("取消");
 
     public EditStudentDialog(Frame owner, int mode, OnSaveListener callback) {
         this(owner, mode, "", "", Sex.MALE, callback);
@@ -29,7 +24,7 @@ public class EditStudentDialog extends JDialog implements IEditStudentView {
     public EditStudentDialog(Frame owner, int mode, String name, String number, Sex sex, OnSaveListener callback) {
         super(owner, "编辑学生信息", true);
 
-        controller = new EditStudentController(this, mode, callback);
+        IEditStudentController controller = new EditStudentController(this, mode, callback);
 
         Container mPanel = getContentPane();
 
@@ -70,8 +65,10 @@ public class EditStudentDialog extends JDialog implements IEditStudentView {
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new FlowLayout());
 
+        JButton okButton = new JButton("确定");
         okButton.addActionListener(controller::onClickOkButton);
         optPanel.add(okButton);
+        JButton cancelButton = new JButton("取消");
         cancelButton.addActionListener(controller::onClickCancelButton);
         optPanel.add(cancelButton);
 

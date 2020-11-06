@@ -30,7 +30,7 @@ public class DataSetModelFactory {
     ItemListModel<P, T> newListModel(Table<P, T> table,
                                      Comparator<P> primitiveComparor,
                                      Predicate<T> filter) {
-        ItemListModel<P, T> model = new ItemListModel<P, T>(table.get(filter), primitiveComparor);
+        ItemListModel<P, T> model = new ItemListModel<>(table.get(filter), primitiveComparor);
         makeModel(model, table, filter);
         return model;
     }
@@ -56,7 +56,7 @@ public class DataSetModelFactory {
     ItemComboBoxModel<P, T> newComboBoxModel(Table<P, T> table,
                                              Comparator<P> primitiveComparor,
                                              Predicate<T> filter) {
-        ItemComboBoxModel<P, T> model = new ItemComboBoxModel<P, T>(table.get(filter), primitiveComparor);
+        ItemComboBoxModel<P, T> model = new ItemComboBoxModel<>(table.get(filter), primitiveComparor);
         makeModel(model, table, filter);
         return model;
     }
@@ -97,7 +97,7 @@ public class DataSetModelFactory {
                                        Table<P, T> table,
                                        Comparator<P> primitiveComparor,
                                        Predicate<T> filter) {
-        ItemTableModel<P, T> model = new ItemTableModel<P, T>(columnNames, columnGetters, columnClasses, table.get(filter), primitiveComparor);
+        ItemTableModel<P, T> model = new ItemTableModel<>(columnNames, columnGetters, columnClasses, table.get(filter), primitiveComparor);
         makeModel(model, table, filter);
         return model;
     }

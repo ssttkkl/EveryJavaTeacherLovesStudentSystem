@@ -12,14 +12,11 @@ public class MainWindow extends JFrame implements IMainView {
 
     private final IMainController controller;
 
-    private final GroupManagePanel groupManagePanel;
-    private final CourseManagePanel courseManagePanel;
-
     public MainWindow() {
         this.controller = new MainController(this);
 
-        this.courseManagePanel = new CourseManagePanel(this);
-        this.groupManagePanel = new GroupManagePanel();
+        CourseManagePanel courseManagePanel = new CourseManagePanel(this);
+        GroupManagePanel groupManagePanel = new GroupManagePanel();
 
         JTabbedPane tabbedPane = new JTabbedPane();
 

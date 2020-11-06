@@ -17,8 +17,6 @@ public class GroupManagePanel extends JPanel implements IGroupManageView {
 
     private final JTable table = new JTable();
 
-    private final JButton calcButton = new JButton("计算");
-    private final JButton addButton = new JButton("添加班级");
     private final JButton editButton = new JButton("编辑班级");
     private final JButton removeButton = new JButton("删除班级");
 
@@ -31,8 +29,10 @@ public class GroupManagePanel extends JPanel implements IGroupManageView {
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new FlowLayout());
 
+        JButton calcButton = new JButton("计算");
         calcButton.addActionListener(controller::onClickCalcButton);
         optPanel.add(calcButton);
+        JButton addButton = new JButton("添加班级");
         addButton.addActionListener(controller::onClickAddButton);
         optPanel.add(addButton);
         editButton.addActionListener(controller::onClickEditButton);

@@ -12,16 +12,13 @@ import java.awt.*;
 
 public class ScoreManageWindow extends JFrame implements IScoreManageView {
 
-    private final IScoreManageController controller;
-
     private final JTable table = new JTable();
 
-    private final JButton addButton = new JButton("添加成绩");
     private final JButton editButton = new JButton("编辑成绩");
     private final JButton removeButton = new JButton("删除成绩");
 
     public ScoreManageWindow(int studentId) {
-        controller = new ScoreManageController(this, studentId);
+        IScoreManageController controller = new ScoreManageController(this, studentId);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -30,6 +27,7 @@ public class ScoreManageWindow extends JFrame implements IScoreManageView {
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new FlowLayout());
 
+        JButton addButton = new JButton("添加成绩");
         addButton.addActionListener(controller::onClickAddButton);
         optPanel.add(addButton);
         editButton.addActionListener(controller::onClickEditButton);

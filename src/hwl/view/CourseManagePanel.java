@@ -13,18 +13,15 @@ import java.awt.*;
 public class CourseManagePanel extends JPanel implements ICourseManageView {
 
     private final Frame parent;
-    private final ICourseManageController controller;
 
     private final JTable table = new JTable();
 
-    private final JButton calcButton = new JButton("计算");
-    private final JButton addButton = new JButton("添加课程");
     private final JButton editButton = new JButton("编辑课程");
     private final JButton removeButton = new JButton("删除课程");
 
     public CourseManagePanel(Frame parent) {
         this.parent = parent;
-        this.controller = new CourseManageController(this);
+        ICourseManageController controller = new CourseManageController(this);
 
         this.setLayout(new BorderLayout());
 
@@ -32,8 +29,10 @@ public class CourseManagePanel extends JPanel implements ICourseManageView {
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new FlowLayout());
 
+        JButton calcButton = new JButton("计算");
         calcButton.addActionListener(controller::onClickCalcButton);
         optPanel.add(calcButton);
+        JButton addButton = new JButton("添加课程");
         addButton.addActionListener(controller::onClickAddButton);
         optPanel.add(addButton);
         editButton.addActionListener(controller::onClickEditButton);

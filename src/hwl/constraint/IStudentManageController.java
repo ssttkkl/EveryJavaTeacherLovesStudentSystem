@@ -2,7 +2,6 @@ package hwl.constraint;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 
 public interface IStudentManageController {
 

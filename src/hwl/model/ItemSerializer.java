@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * 包含将数据项序列化到DataOutputStream/从DataInputStream反序列化的方法
  */
-public interface ItemSerializer<T extends Item> {
+public interface ItemSerializer<T extends Item<?>> {
     /**
      * 从DataInputStream反序列化数据项
      *

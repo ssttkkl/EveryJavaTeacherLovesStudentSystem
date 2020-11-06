@@ -13,18 +13,13 @@ import static javax.swing.GroupLayout.Alignment.*;
 
 public class AddScoreDialog extends JDialog implements IAddScoreView {
 
-    private final IAddScoreController controller;
-
     private final JComboBox<Course> courseComboBox = new JComboBox<>();
     private final JTextField pointTextField = new JTextField("", 15);
-
-    private final JButton okButton = new JButton("确定");
-    private final JButton cancelButton = new JButton("取消");
 
     public AddScoreDialog(Frame owner, int studentId, OnSaveListener callback) {
         super(owner, "添加课程", true);
 
-        controller = new AddScoreController(this, studentId, callback);
+        IAddScoreController controller = new AddScoreController(this, studentId, callback);
 
         Container mPanel = getContentPane();
 
@@ -57,8 +52,10 @@ public class AddScoreDialog extends JDialog implements IAddScoreView {
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new FlowLayout());
 
+        JButton okButton = new JButton("确定");
         okButton.addActionListener(controller::onClickOkButton);
         optPanel.add(okButton);
+        JButton cancelButton = new JButton("取消");
         cancelButton.addActionListener(controller::onClickCancelButton);
         optPanel.add(cancelButton);
 
