@@ -34,7 +34,7 @@ public class StudentManageController implements IStudentManageController {
         this.view = view;
         this.groupId = groupId;
 
-        this.view.setTitle(String.format("管理学生（班级：%s）", getGroup().name));
+        this.view.setTitle(String.format("学生管理（班级：%s）", getGroup().name));
 
         tableModel = DataSetModelFactory.newTableModel(
                 new String[]{"姓名", "学号", "性别", "总成绩", "平均成绩", "总学分"},

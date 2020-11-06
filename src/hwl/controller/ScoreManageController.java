@@ -30,6 +30,8 @@ public class ScoreManageController implements IScoreManageController {
         this.view = view;
         this.studentId = studentId;
 
+        this.view.setTitle(String.format("成绩管理（学生：%s）", getStudent().name));
+
         tableModel = DataSetModelFactory.newTableModel(
                 new String[]{"课程名称", "课程编号", "学分", "成绩"},
                 new Function[]{
