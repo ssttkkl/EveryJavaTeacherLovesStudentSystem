@@ -1,22 +1,21 @@
 package hwl.controller;
 
-import hwl.constraint.IScoreManageController;
-import hwl.constraint.IScoreManageView;
 import hwl.model.DataSetModelFactory;
 import hwl.model.Database;
 import hwl.model.IntPair;
 import hwl.model.ItemTableModel;
 import hwl.model.item.Score;
 import hwl.model.item.Student;
+import hwl.view.ScoreManageWindow;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
 import java.util.Comparator;
 import java.util.function.Function;
 
-public class ScoreManageController implements IScoreManageController {
+public class ScoreManageController {
 
-    private final IScoreManageView view;
+    private final ScoreManageWindow view;
 
     private final int studentId;
 
@@ -26,7 +25,7 @@ public class ScoreManageController implements IScoreManageController {
         return Database.getInstance().students.get(studentId);
     }
 
-    public ScoreManageController(IScoreManageView view, int studentId) {
+    public ScoreManageController(ScoreManageWindow view, int studentId) {
         this.view = view;
         this.studentId = studentId;
 
@@ -56,13 +55,11 @@ public class ScoreManageController implements IScoreManageController {
         this.view.setRemoveButtonEnabled(false);
     }
 
-    @Override
     public void onClickAddButton(ActionEvent e) {
         view.showAddDialog(studentId, (courseId, point) ->
                 Database.getInstance().scores.emplace(studentId, courseId, point));
     }
 
-    @Override
     public void onClickEditButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Score s = tableModel.get(index);
@@ -79,7 +76,6 @@ public class ScoreManageController implements IScoreManageController {
         }
     }
 
-    @Override
     public void onClickRemoveButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Score s = tableModel.get(index);
@@ -89,7 +85,6 @@ public class ScoreManageController implements IScoreManageController {
         }
     }
 
-    @Override
     public void onSelectionChanged(ListSelectionEvent e) {
         view.setEditButtonEnabled(true);
         view.setRemoveButtonEnabled(true);

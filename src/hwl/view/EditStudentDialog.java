@@ -1,7 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.IEditStudentController;
-import hwl.constraint.IEditStudentView;
 import hwl.controller.EditStudentController;
 import hwl.model.Sex;
 import hwl.view.utils.DisplayableComboBoxRenderer;
@@ -11,8 +9,10 @@ import java.awt.*;
 
 import static javax.swing.GroupLayout.Alignment.*;
 
-public class EditStudentDialog extends JDialog implements IEditStudentView {
+public class EditStudentDialog extends JDialog {
 
+    public static final int ADD = 0;
+    public static final int EDIT = 1;
     private final JTextField nameTextField = new JTextField("", 15);
     private final JTextField numberTextField = new JTextField("", 15);
     private final JComboBox<Sex> sexComboBox = new JComboBox<>(Sex.values());
@@ -24,7 +24,7 @@ public class EditStudentDialog extends JDialog implements IEditStudentView {
     public EditStudentDialog(Frame owner, int mode, String name, String number, Sex sex, OnSaveListener callback) {
         super(owner, "编辑学生信息", true);
 
-        IEditStudentController controller = new EditStudentController(this, mode, callback);
+        EditStudentController controller = new EditStudentController(this, mode, callback);
 
         Container mPanel = getContentPane();
 
@@ -80,23 +80,23 @@ public class EditStudentDialog extends JDialog implements IEditStudentView {
     }
 
 
-    @Override
     public void close() {
         setVisible(false);
     }
 
-    @Override
     public String getStudentName() {
         return nameTextField.getText();
     }
 
-    @Override
     public String getStudentNumber() {
         return numberTextField.getText();
     }
 
-    @Override
     public Sex getStudentSex() {
         return (Sex) sexComboBox.getSelectedItem();
+    }
+
+    public interface OnSaveListener {
+        void onSave(String name, String number, Sex sex);
     }
 }

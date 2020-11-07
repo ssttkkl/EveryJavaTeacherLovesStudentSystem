@@ -1,12 +1,11 @@
 package hwl.controller;
 
-import hwl.constraint.IGroupManageController;
-import hwl.constraint.IGroupManageView;
 import hwl.model.DataSetModelFactory;
 import hwl.model.Database;
 import hwl.model.ItemTableModel;
 import hwl.model.info.GroupInfo;
 import hwl.model.item.Group;
+import hwl.view.GroupManagePanel;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
@@ -14,15 +13,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class GroupManageController implements IGroupManageController {
+public class GroupManageController {
 
-    private final IGroupManageView view;
+    private final GroupManagePanel view;
 
     private final ItemTableModel<Integer, Group> tableModel;
 
     private final Map<Integer, GroupInfo> groupInfos = new HashMap<>();
 
-    public GroupManageController(IGroupManageView view) {
+    public GroupManageController(GroupManagePanel view) {
         this.view = view;
 
         tableModel = DataSetModelFactory.newTableModel(
@@ -46,13 +45,11 @@ public class GroupManageController implements IGroupManageController {
         this.view.setRemoveButtonEnabled(false);
     }
 
-    @Override
     public void onDoubleClickTable(int index) {
         int groupId = tableModel.get(index).id;
         view.showStudentManageWindow(groupId);
     }
 
-    @Override
     public void onClickCalcButton(ActionEvent e) {
         groupInfos.clear();
         for (int i = 0; i < tableModel.size(); i++) {
@@ -62,14 +59,12 @@ public class GroupManageController implements IGroupManageController {
         tableModel.notifyColumnChanged(1);
     }
 
-    @Override
     public void onClickAddButton(ActionEvent e) {
         String name = this.view.showAddGroupDialog();
         if (name != null)
             Database.getInstance().groups.emplace(name);
     }
 
-    @Override
     public void onClickEditButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Group g = tableModel.get(index);
@@ -79,7 +74,6 @@ public class GroupManageController implements IGroupManageController {
             Database.getInstance().groups.put(new Group(g.id, name));
     }
 
-    @Override
     public void onClickRemoveButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Group g = tableModel.get(index);
@@ -88,7 +82,6 @@ public class GroupManageController implements IGroupManageController {
             Database.getInstance().groups.remove(g.id);
     }
 
-    @Override
     public void onSelectionChanged(ListSelectionEvent e) {
         this.view.setEditButtonEnabled(true);
         this.view.setRemoveButtonEnabled(true);

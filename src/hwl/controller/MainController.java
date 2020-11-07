@@ -1,14 +1,13 @@
 package hwl.controller;
 
-import hwl.constraint.IMainController;
-import hwl.constraint.IMainView;
 import hwl.model.Database;
+import hwl.view.MainWindow;
 
-public class MainController implements IMainController {
+public class MainController {
 
-    private final IMainView view;
+    private final MainWindow view;
 
-    public MainController(IMainView view) {
+    public MainController(MainWindow view) {
         this.view = view;
 
         Database.getInstance().addOnErrorListener(exc -> this.view.showErrorDialog(exc.getMessage()));
@@ -16,7 +15,6 @@ public class MainController implements IMainController {
         Database.getInstance().postReload();
     }
 
-    @Override
     public void onWindowClosed() {
         Database.getInstance().shutdownAndJoin();
     }

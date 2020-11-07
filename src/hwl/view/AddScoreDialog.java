@@ -1,7 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.IAddScoreController;
-import hwl.constraint.IAddScoreView;
 import hwl.controller.AddScoreController;
 import hwl.model.item.Course;
 import hwl.view.utils.DisplayableComboBoxRenderer;
@@ -11,7 +9,7 @@ import java.awt.*;
 
 import static javax.swing.GroupLayout.Alignment.*;
 
-public class AddScoreDialog extends JDialog implements IAddScoreView {
+public class AddScoreDialog extends JDialog {
 
     private final JComboBox<Course> courseComboBox = new JComboBox<>();
     private final JTextField pointTextField = new JTextField("", 15);
@@ -19,7 +17,7 @@ public class AddScoreDialog extends JDialog implements IAddScoreView {
     public AddScoreDialog(Frame owner, int studentId, OnSaveListener callback) {
         super(owner, "添加课程", true);
 
-        IAddScoreController controller = new AddScoreController(this, studentId, callback);
+        AddScoreController controller = new AddScoreController(this, studentId, callback);
 
         Container mPanel = getContentPane();
 
@@ -67,28 +65,27 @@ public class AddScoreDialog extends JDialog implements IAddScoreView {
     }
 
 
-    @Override
     public void close() {
         setVisible(false);
     }
 
-    @Override
     public void setCourseComboBoxModel(ComboBoxModel<Course> model) {
         courseComboBox.setModel(model);
     }
 
-    @Override
     public Course getScoreCourse() {
         return (Course) courseComboBox.getSelectedItem();
     }
 
-    @Override
     public String getScorePoint() {
         return pointTextField.getText();
     }
 
-    @Override
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(this, message, "错误", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public interface OnSaveListener {
+        void onSave(int courseId, double point);
     }
 }

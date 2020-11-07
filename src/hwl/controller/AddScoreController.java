@@ -1,21 +1,20 @@
 package hwl.controller;
 
-import hwl.constraint.IAddScoreController;
-import hwl.constraint.IAddScoreView;
 import hwl.model.DataSetModelFactory;
 import hwl.model.Database;
 import hwl.model.IntPair;
 import hwl.model.item.Course;
+import hwl.view.AddScoreDialog;
 
 import java.awt.event.ActionEvent;
 
-public class AddScoreController implements IAddScoreController {
+public class AddScoreController {
 
-    private final IAddScoreView view;
+    private final AddScoreDialog view;
 
-    private final IAddScoreView.OnSaveListener callback;
+    private final AddScoreDialog.OnSaveListener callback;
 
-    public AddScoreController(IAddScoreView view, int studentId, IAddScoreView.OnSaveListener callback) {
+    public AddScoreController(AddScoreDialog view, int studentId, AddScoreDialog.OnSaveListener callback) {
         this.view = view;
         this.callback = callback;
 
@@ -23,7 +22,6 @@ public class AddScoreController implements IAddScoreController {
                 c -> !Database.getInstance().scores.contains(new IntPair(studentId, c.id))));
     }
 
-    @Override
     public void onClickOkButton(ActionEvent e) {
         if (callback != null) {
             try {
@@ -47,7 +45,6 @@ public class AddScoreController implements IAddScoreController {
         }
     }
 
-    @Override
     public void onClickCancelButton(ActionEvent e) {
         view.close();
     }

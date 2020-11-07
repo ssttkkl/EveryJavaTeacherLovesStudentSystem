@@ -1,13 +1,12 @@
 package hwl.controller;
 
-import hwl.constraint.IStudentManageController;
-import hwl.constraint.IStudentManageView;
 import hwl.model.DataSetModelFactory;
 import hwl.model.Database;
 import hwl.model.ItemTableModel;
 import hwl.model.info.StudentInfo;
 import hwl.model.item.Group;
 import hwl.model.item.Student;
+import hwl.view.StudentManageWindow;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
@@ -16,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class StudentManageController implements IStudentManageController {
+public class StudentManageController {
 
-    private final IStudentManageView view;
+    private final StudentManageWindow view;
 
     private final int groupId;
 
@@ -30,7 +29,7 @@ public class StudentManageController implements IStudentManageController {
         return Database.getInstance().groups.get(groupId);
     }
 
-    public StudentManageController(IStudentManageView view, int groupId) {
+    public StudentManageController(StudentManageWindow view, int groupId) {
         this.view = view;
         this.groupId = groupId;
 
@@ -73,26 +72,22 @@ public class StudentManageController implements IStudentManageController {
         this.view.setRemoveButtonEnabled(false);
     }
 
-    @Override
     public void onDoubleClickTable(int row) {
         Student s = tableModel.get(row);
         view.showScoreManageWindow(s.id);
     }
 
-    @Override
     public void onClickAddButton(ActionEvent e) {
         view.showAddStudentDialog(
                 (name, number, sex) -> Database.getInstance().students.emplace(name, number, sex, groupId));
     }
 
-    @Override
     public void onClickEditButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Student s = tableModel.get(index);
         view.showEditStudentDialog(s, (name, number, sex) -> Database.getInstance().students.put(new Student(s.id, name, number, sex, s.groupId)));
     }
 
-    @Override
     public void onClickRemoveButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Student s = tableModel.get(index);
@@ -101,13 +96,11 @@ public class StudentManageController implements IStudentManageController {
         }
     }
 
-    @Override
     public void onSelectionChanged(ListSelectionEvent e) {
         view.setEditButtonEnabled(true);
         view.setRemoveButtonEnabled(true);
     }
 
-    @Override
     public void onClickCalcButton(ActionEvent e) {
         studentInfos.clear();
         for (int i = 0; i < tableModel.size(); i++) {

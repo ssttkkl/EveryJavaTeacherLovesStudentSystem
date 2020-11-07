@@ -1,8 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.IAddScoreView;
-import hwl.constraint.IScoreManageController;
-import hwl.constraint.IScoreManageView;
 import hwl.controller.ScoreManageController;
 import hwl.model.item.Score;
 
@@ -10,7 +7,7 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
 
-public class ScoreManageWindow extends JFrame implements IScoreManageView {
+public class ScoreManageWindow extends JFrame {
 
     private final JTable table = new JTable();
 
@@ -18,7 +15,7 @@ public class ScoreManageWindow extends JFrame implements IScoreManageView {
     private final JButton removeButton = new JButton("删除成绩");
 
     public ScoreManageWindow(int studentId) {
-        IScoreManageController controller = new ScoreManageController(this, studentId);
+        ScoreManageController controller = new ScoreManageController(this, studentId);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -50,33 +47,27 @@ public class ScoreManageWindow extends JFrame implements IScoreManageView {
         this.setSize(800, 600);
     }
 
-    @Override
     public void setTableModel(TableModel model) {
         table.setModel(model);
     }
 
-    @Override
     public void setEditButtonEnabled(boolean isEnabled) {
         editButton.setEnabled(isEnabled);
     }
 
-    @Override
     public void setRemoveButtonEnabled(boolean isEnabled) {
         removeButton.setEnabled(isEnabled);
     }
 
-    @Override
     public int getSelectedRow() {
         return table.getSelectedRow();
     }
 
-    @Override
-    public void showAddDialog(int studentId, IAddScoreView.OnSaveListener callback) {
+    public void showAddDialog(int studentId, AddScoreDialog.OnSaveListener callback) {
         AddScoreDialog d = new AddScoreDialog(this, studentId, callback);
         d.setVisible(true);
     }
 
-    @Override
     public String showEditDialog(Score s) {
         return (String) JOptionPane.showInputDialog(this,
                 "成绩",
@@ -87,7 +78,6 @@ public class ScoreManageWindow extends JFrame implements IScoreManageView {
                 String.format("%.1f", s.point));
     }
 
-    @Override
     public boolean showConfirmRemoveDialog() {
         return JOptionPane.showConfirmDialog(this,
                 "确认删除吗？",
@@ -95,7 +85,6 @@ public class ScoreManageWindow extends JFrame implements IScoreManageView {
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
 
-    @Override
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(this,
                 message,

@@ -1,16 +1,14 @@
 package hwl.view;
 
-import hwl.constraint.IMainController;
-import hwl.constraint.IMainView;
 import hwl.controller.MainController;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class MainWindow extends JFrame implements IMainView {
+public class MainWindow extends JFrame {
 
-    private final IMainController controller;
+    private final MainController controller;
 
     public MainWindow() {
         this.controller = new MainController(this);
@@ -66,7 +64,6 @@ public class MainWindow extends JFrame implements IMainView {
         setSize(800, 600);
     }
 
-    @Override
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(this, message, "发生错误", JOptionPane.ERROR_MESSAGE);
     }

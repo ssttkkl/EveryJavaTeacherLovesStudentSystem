@@ -1,7 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.IEditCourseController;
-import hwl.constraint.IEditCourseView;
 import hwl.controller.EditCourseController;
 
 import javax.swing.*;
@@ -9,8 +7,10 @@ import java.awt.*;
 
 import static javax.swing.GroupLayout.Alignment.*;
 
-public class EditCourseDialog extends JDialog implements IEditCourseView {
+public class EditCourseDialog extends JDialog {
 
+    public static final int ADD = 0;
+    public static final int EDIT = 1;
     private final JTextField nameTextField = new JTextField("", 15);
     private final JTextField numberTextField = new JTextField("", 15);
     private final JTextField pointTextField = new JTextField("", 15);
@@ -22,7 +22,7 @@ public class EditCourseDialog extends JDialog implements IEditCourseView {
     public EditCourseDialog(Frame owner, int mode, String name, String number, double point, OnSaveListener callback) {
         super(owner, "编辑学生信息", true);
 
-        IEditCourseController controller = new EditCourseController(this, mode, callback);
+        EditCourseController controller = new EditCourseController(this, mode, callback);
 
         Container mPanel = getContentPane();
 
@@ -76,28 +76,27 @@ public class EditCourseDialog extends JDialog implements IEditCourseView {
     }
 
 
-    @Override
     public void close() {
         setVisible(false);
     }
 
-    @Override
     public String getCourseName() {
         return nameTextField.getText();
     }
 
-    @Override
     public String getCourseNumber() {
         return numberTextField.getText();
     }
 
-    @Override
     public String getCoursePoint() {
         return pointTextField.getText();
     }
 
-    @Override
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(this, message, "错误", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public interface OnSaveListener {
+        void onSave(String name, String number, double point);
     }
 }

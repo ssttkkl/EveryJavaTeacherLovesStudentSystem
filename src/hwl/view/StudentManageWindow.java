@@ -1,8 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.IEditStudentView;
-import hwl.constraint.IStudentManageController;
-import hwl.constraint.IStudentManageView;
 import hwl.controller.StudentManageController;
 import hwl.model.item.Student;
 
@@ -12,9 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class StudentManageWindow extends JFrame implements IStudentManageView {
+public class StudentManageWindow extends JFrame {
 
-    private final IStudentManageController controller;
+    private final StudentManageController controller;
 
     private final JTable table = new JTable();
 
@@ -85,46 +82,38 @@ public class StudentManageWindow extends JFrame implements IStudentManageView {
         this.setSize(800, 600);
     }
 
-    @Override
     public void setTableModel(TableModel model) {
         table.setModel(model);
     }
 
-    @Override
     public void setEditButtonEnabled(boolean isEnabled) {
         editButton.setEnabled(isEnabled);
     }
 
-    @Override
     public void setRemoveButtonEnabled(boolean isEnabled) {
         removeButton.setEnabled(isEnabled);
     }
 
-    @Override
     public int getSelectedRow() {
         return table.getSelectedRow();
     }
 
-    @Override
     public void showScoreManageWindow(int studentId) {
         ScoreManageWindow w = new ScoreManageWindow(studentId);
         w.setVisible(true);
     }
 
-    @Override
-    public void showAddStudentDialog(IEditStudentView.OnSaveListener callback) {
+    public void showAddStudentDialog(EditStudentDialog.OnSaveListener callback) {
         EditStudentDialog d = new EditStudentDialog(this, EditStudentDialog.ADD, callback);
         d.setVisible(true);
     }
 
-    @Override
-    public void showEditStudentDialog(Student s, IEditStudentView.OnSaveListener callback) {
+    public void showEditStudentDialog(Student s, EditStudentDialog.OnSaveListener callback) {
         EditStudentDialog d = new EditStudentDialog(this, EditStudentDialog.EDIT,
                 s.name, s.number, s.sex, callback);
         d.setVisible(true);
     }
 
-    @Override
     public boolean showConfirmRemoveStudentDialog() {
         return JOptionPane.showConfirmDialog(this,
                 "确认删除吗？",

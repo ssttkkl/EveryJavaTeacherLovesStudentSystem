@@ -1,31 +1,29 @@
 package hwl.controller;
 
-import hwl.constraint.IEditCourseController;
-import hwl.constraint.IEditCourseView;
+import hwl.view.EditCourseDialog;
 
 import java.awt.event.ActionEvent;
 
-public class EditCourseController implements IEditCourseController {
+public class EditCourseController {
 
-    private final IEditCourseView view;
+    private final EditCourseDialog view;
 
-    private final IEditCourseView.OnSaveListener callback;
+    private final EditCourseDialog.OnSaveListener callback;
 
-    public EditCourseController(IEditCourseView view, int mode, IEditCourseView.OnSaveListener callback) {
+    public EditCourseController(EditCourseDialog view, int mode, EditCourseDialog.OnSaveListener callback) {
         this.view = view;
         this.callback = callback;
 
         switch (mode) {
-            case IEditCourseView.ADD:
+            case EditCourseDialog.ADD:
                 this.view.setTitle("添加课程");
                 break;
-            case IEditCourseView.EDIT:
+            case EditCourseDialog.EDIT:
                 this.view.setTitle("编辑课程");
                 break;
         }
     }
 
-    @Override
     public void onClickOkButton(ActionEvent e) {
         if (callback != null) {
             try {
@@ -44,7 +42,6 @@ public class EditCourseController implements IEditCourseController {
         }
     }
 
-    @Override
     public void onClickCancelButton(ActionEvent e) {
         view.close();
     }

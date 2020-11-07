@@ -1,38 +1,35 @@
 package hwl.controller;
 
-import hwl.constraint.IEditStudentController;
-import hwl.constraint.IEditStudentView;
+import hwl.view.EditStudentDialog;
 
 import java.awt.event.ActionEvent;
 
-public class EditStudentController implements IEditStudentController {
+public class EditStudentController {
 
-    private final IEditStudentView view;
+    private final EditStudentDialog view;
 
-    private final IEditStudentView.OnSaveListener callback;
+    private final EditStudentDialog.OnSaveListener callback;
 
-    public EditStudentController(IEditStudentView view, int mode, IEditStudentView.OnSaveListener callback) {
+    public EditStudentController(EditStudentDialog view, int mode, EditStudentDialog.OnSaveListener callback) {
         this.view = view;
         this.callback = callback;
 
         switch (mode) {
-            case IEditStudentView.ADD:
+            case EditStudentDialog.ADD:
                 this.view.setTitle("添加学生");
                 break;
-            case IEditStudentView.EDIT:
+            case EditStudentDialog.EDIT:
                 this.view.setTitle("编辑学生");
                 break;
         }
     }
 
-    @Override
     public void onClickOkButton(ActionEvent e) {
         if (callback != null)
             callback.onSave(view.getStudentName(), view.getStudentNumber(), view.getStudentSex());
         view.close();
     }
 
-    @Override
     public void onClickCancelButton(ActionEvent e) {
         view.close();
     }

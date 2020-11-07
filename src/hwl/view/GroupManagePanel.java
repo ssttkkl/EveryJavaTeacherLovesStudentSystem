@@ -1,7 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.IGroupManageController;
-import hwl.constraint.IGroupManageView;
 import hwl.controller.GroupManageController;
 import hwl.model.ItemTableModel;
 import hwl.model.item.Group;
@@ -11,9 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GroupManagePanel extends JPanel implements IGroupManageView {
+public class GroupManagePanel extends JPanel {
 
-    private final IGroupManageController controller;
+    private final GroupManageController controller;
 
     private final JTable table = new JTable();
 
@@ -81,27 +79,22 @@ public class GroupManagePanel extends JPanel implements IGroupManageView {
         // END draw list
     }
 
-    @Override
     public void setTableModel(ItemTableModel<Integer, Group> model) {
         table.setModel(model);
     }
 
-    @Override
     public void setEditButtonEnabled(boolean isEnabled) {
         editButton.setEnabled(isEnabled);
     }
 
-    @Override
     public void setRemoveButtonEnabled(boolean isEnabled) {
         removeButton.setEnabled(isEnabled);
     }
 
-    @Override
     public int getSelectedRow() {
         return table.getSelectedRow();
     }
 
-    @Override
     public String showAddGroupDialog() {
         return JOptionPane.showInputDialog(this,
                 "班级名称",
@@ -109,7 +102,6 @@ public class GroupManagePanel extends JPanel implements IGroupManageView {
                 JOptionPane.PLAIN_MESSAGE);
     }
 
-    @Override
     public String showRenameGroupDialog(String oldName) {
         return (String) JOptionPane.showInputDialog(this,
                 "班级名称",
@@ -120,7 +112,6 @@ public class GroupManagePanel extends JPanel implements IGroupManageView {
                 oldName);
     }
 
-    @Override
     public boolean showConfirmRemoveGroupDialog() {
         return JOptionPane.showConfirmDialog(this,
                 "确认删除吗？",
@@ -128,7 +119,6 @@ public class GroupManagePanel extends JPanel implements IGroupManageView {
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
 
-    @Override
     public void showStudentManageWindow(int groupId) {
         StudentManageWindow w = new StudentManageWindow(groupId);
         w.setVisible(true);

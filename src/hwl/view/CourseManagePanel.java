@@ -1,8 +1,5 @@
 package hwl.view;
 
-import hwl.constraint.ICourseManageController;
-import hwl.constraint.ICourseManageView;
-import hwl.constraint.IEditCourseView;
 import hwl.controller.CourseManageController;
 import hwl.model.ItemTableModel;
 import hwl.model.item.Course;
@@ -10,7 +7,7 @@ import hwl.model.item.Course;
 import javax.swing.*;
 import java.awt.*;
 
-public class CourseManagePanel extends JPanel implements ICourseManageView {
+public class CourseManagePanel extends JPanel {
 
     private final Frame parent;
 
@@ -21,7 +18,7 @@ public class CourseManagePanel extends JPanel implements ICourseManageView {
 
     public CourseManagePanel(Frame parent) {
         this.parent = parent;
-        ICourseManageController controller = new CourseManageController(this);
+        CourseManageController controller = new CourseManageController(this);
 
         this.setLayout(new BorderLayout());
 
@@ -54,40 +51,33 @@ public class CourseManagePanel extends JPanel implements ICourseManageView {
         // END draw list
     }
 
-    @Override
     public void setTableModel(ItemTableModel<Integer, Course> model) {
         table.setModel(model);
     }
 
-    @Override
     public void setEditButtonEnabled(boolean isEnabled) {
         editButton.setEnabled(isEnabled);
     }
 
-    @Override
     public void setRemoveButtonEnabled(boolean isEnabled) {
         removeButton.setEnabled(isEnabled);
     }
 
-    @Override
     public int getSelectedRow() {
         return table.getSelectedRow();
     }
 
-    @Override
-    public void showAddCourseDialog(IEditCourseView.OnSaveListener callback) {
-        EditCourseDialog d = new EditCourseDialog(parent, IEditCourseView.ADD, callback);
+    public void showAddCourseDialog(EditCourseDialog.OnSaveListener callback) {
+        EditCourseDialog d = new EditCourseDialog(parent, EditCourseDialog.ADD, callback);
         d.setVisible(true);
     }
 
-    @Override
-    public void showEditCourseDialog(Course s, IEditCourseView.OnSaveListener callback) {
-        EditCourseDialog d = new EditCourseDialog(parent, IEditCourseView.EDIT,
+    public void showEditCourseDialog(Course s, EditCourseDialog.OnSaveListener callback) {
+        EditCourseDialog d = new EditCourseDialog(parent, EditCourseDialog.EDIT,
                 s.name, s.number, s.point, callback);
         d.setVisible(true);
     }
 
-    @Override
     public boolean showConfirmRemoveCourseDialog() {
         return JOptionPane.showConfirmDialog(this,
                 "确认删除吗？",

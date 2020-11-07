@@ -1,12 +1,11 @@
 package hwl.controller;
 
-import hwl.constraint.ICourseManageController;
-import hwl.constraint.ICourseManageView;
 import hwl.model.DataSetModelFactory;
 import hwl.model.Database;
 import hwl.model.ItemTableModel;
 import hwl.model.info.CourseInfo;
 import hwl.model.item.Course;
+import hwl.view.CourseManagePanel;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
@@ -14,15 +13,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class CourseManageController implements ICourseManageController {
+public class CourseManageController {
 
-    private final ICourseManageView view;
+    private final CourseManagePanel view;
 
     private final ItemTableModel<Integer, Course> tableModel;
 
     private final Map<Integer, CourseInfo> courseInfos = new HashMap<>();
 
-    public CourseManageController(ICourseManageView view) {
+    public CourseManageController(CourseManagePanel view) {
         this.view = view;
 
         tableModel = DataSetModelFactory.newTableModel(
@@ -50,7 +49,6 @@ public class CourseManageController implements ICourseManageController {
         this.view.setRemoveButtonEnabled(false);
     }
 
-    @Override
     public void onClickCalcButton(ActionEvent e) {
         courseInfos.clear();
         for (int i = 0; i < tableModel.size(); i++) {
@@ -60,13 +58,11 @@ public class CourseManageController implements ICourseManageController {
         tableModel.notifyColumnChanged(3);
     }
 
-    @Override
     public void onClickAddButton(ActionEvent e) {
         view.showAddCourseDialog((name, number, point) ->
                 Database.getInstance().courses.emplace(name, number, point));
     }
 
-    @Override
     public void onClickEditButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Course c = tableModel.get(index);
@@ -74,7 +70,6 @@ public class CourseManageController implements ICourseManageController {
                 Database.getInstance().courses.put(new Course(c.id, name, number, point)));
     }
 
-    @Override
     public void onClickRemoveButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Course c = tableModel.get(index);
@@ -82,7 +77,6 @@ public class CourseManageController implements ICourseManageController {
             Database.getInstance().courses.remove(c.id);
     }
 
-    @Override
     public void onSelectionChanged(ListSelectionEvent e) {
         this.view.setEditButtonEnabled(true);
         this.view.setRemoveButtonEnabled(true);
