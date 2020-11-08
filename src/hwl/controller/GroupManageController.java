@@ -71,7 +71,7 @@ public class GroupManageController {
 
         String name = this.view.showRenameGroupDialog(g.name);
         if (name != null)
-            Database.getInstance().groups.put(new Group(g.id, name));
+            Database.getInstance().groups.emplace(g.id, name);
     }
 
     public void onClickRemoveButton(ActionEvent e) {

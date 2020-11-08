@@ -16,11 +16,14 @@ public class Students extends IntTable<Student> {
         super(database);
     }
 
-    public Student emplace(String name, String number, Sex sex, int groupId) {
-        int id = newPrimitiveKey();
+    public Student emplace(int id, String name, String number, Sex sex, int groupId) {
         Student s = new Student(id, name, number, sex, groupId);
         put(s);
         return s;
+    }
+
+    public Student emplace(String name, String number, Sex sex, int groupId) {
+        return emplace(newPrimitiveKey(), name, number, sex, groupId);
     }
 
     @Override
@@ -31,7 +34,7 @@ public class Students extends IntTable<Student> {
         return old;
     }
 
-    private final ItemSerializer<Student> itemSerializer = new ItemSerializer<>() {
+    private static final ItemSerializer<Student> itemSerializer = new ItemSerializer<>() {
         @Override
         public Student read(DataInputStream dis) throws IOException {
             int id = dis.readInt();

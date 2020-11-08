@@ -78,14 +78,15 @@ public class StudentManageController {
     }
 
     public void onClickAddButton(ActionEvent e) {
-        view.showAddStudentDialog(
-                (name, number, sex) -> Database.getInstance().students.emplace(name, number, sex, groupId));
+        view.showAddStudentDialog((name, number, sex) ->
+                Database.getInstance().students.emplace(name, number, sex, groupId));
     }
 
     public void onClickEditButton(ActionEvent e) {
         int index = view.getSelectedRow();
         Student s = tableModel.get(index);
-        view.showEditStudentDialog(s, (name, number, sex) -> Database.getInstance().students.put(new Student(s.id, name, number, sex, s.groupId)));
+        view.showEditStudentDialog(s, (name, number, sex) ->
+                Database.getInstance().students.emplace(s.id, name, number, sex, s.groupId));
     }
 
     public void onClickRemoveButton(ActionEvent e) {

@@ -15,11 +15,14 @@ public class Groups extends IntTable<Group> {
         super(database);
     }
 
-    public Group emplace(String name) {
-        int id = newPrimitiveKey();
+    public Group emplace(int id, String name) {
         Group g = new Group(id, name);
         put(g);
         return g;
+    }
+
+    public Group emplace(String name) {
+        return emplace(newPrimitiveKey(), name);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class Groups extends IntTable<Group> {
         return old;
     }
 
-    private final ItemSerializer<Group> itemSerializer = new ItemSerializer<>() {
+    private static final ItemSerializer<Group> itemSerializer = new ItemSerializer<>() {
         @Override
         public Group read(DataInputStream dis) throws IOException {
             int id = dis.readInt();

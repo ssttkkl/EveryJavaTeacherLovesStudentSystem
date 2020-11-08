@@ -14,14 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/**
- * 数据表抽象类
- */
-public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T> {
+public abstract class AbstractTable<P, T extends Item<P>> implements NotifiableTable<P, T> {
 
-    /**
-     * 数据表所属数据库
-     */
     private final Database db;
 
     public AbstractTable(Database database) {
@@ -40,9 +34,18 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
         return listeners.remove(listener);
     }
 
-    /**
-     * 保存所有数据项
-     */
+    private void fireInsert(T newItem) {
+        listeners.forEach(l -> l.onInsert(newItem));
+    }
+
+    private void fireModify(T oldItem, T newItem) {
+        listeners.forEach(l -> l.onModify(oldItem, newItem));
+    }
+
+    private void fireRemove(T removedItem) {
+        listeners.forEach(l -> l.onRemove(removedItem));
+    }
+
     private final ConcurrentHashMap<P, T> data = new ConcurrentHashMap<>();
 
     @Override
@@ -62,8 +65,7 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
 
     @Override
     public List<T> get(Predicate<? super T> predicate) {
-        return data.values().stream().filter(predicate)
-                .collect(Collectors.toList());
+        return data.values().stream().filter(predicate).collect(Collectors.toList());
     }
 
     @Override
@@ -74,49 +76,32 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
     @Override
     public T put(T item) {
         T old = data.put(item.getPrimitiveKey(), item);
-
         System.out.println("Put: " + item.toString());
-
         db.postSave();
-
         if (old != null) {
-            for (OnUpdateListener<T> l : listeners)
-                l.onModify(old, item);
+            fireModify(old, item);
         } else {
-            for (OnUpdateListener<T> l : listeners)
-                l.onInsert(item);
+            fireInsert(item);
         }
-
         return old;
     }
 
     @Override
     public T remove(P primitiveKey) {
         T old = data.remove(primitiveKey);
-
         if (old != null) {
             System.out.println("Remove: " + old.toString());
-
             db.postSave();
-
-            for (OnUpdateListener<T> l : listeners)
-                l.onRemove(old);
+            fireRemove(old);
         }
-
         return old;
     }
 
-    /**
-     * 获取ItemSerializer
-     *
-     * @return ItemSerializer
-     */
     protected abstract ItemSerializer<T> getItemSerializer();
 
     @Override
     public void write(DataOutputStream dos) throws IOException {
         ArrayList<T> list = new ArrayList<>(data.values());
-
         dos.writeInt(list.size());
 
         ItemSerializer<T> serializer = getItemSerializer();
@@ -127,11 +112,10 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
 
     @Override
     public void read(DataInputStream dis) throws IOException {
-        ItemSerializer<T> serializer = getItemSerializer();
-
         int n = dis.readInt();
         ArrayList<T> list = new ArrayList<>(n);
 
+        ItemSerializer<T> serializer = getItemSerializer();
         for (int i = 0; i < n; i++) {
             T t = serializer.read(dis);
             list.add(t);
@@ -147,13 +131,10 @@ public abstract class AbstractTable<P, T extends Item<P>> implements Table<P, T>
         }
 
         for (T t : old) {
-            for (OnUpdateListener<T> l : listeners)
-                l.onRemove(t);
+            fireRemove(t);
         }
-
         for (T t : list) {
-            for (OnUpdateListener<T> l : listeners)
-                l.onInsert(t);
+            fireInsert(t);
         }
     }
 }

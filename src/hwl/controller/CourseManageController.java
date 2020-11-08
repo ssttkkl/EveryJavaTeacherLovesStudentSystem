@@ -67,7 +67,7 @@ public class CourseManageController {
         int index = view.getSelectedRow();
         Course c = tableModel.get(index);
         view.showEditCourseDialog(c, (name, number, point) ->
-                Database.getInstance().courses.put(new Course(c.id, name, number, point)));
+                Database.getInstance().courses.emplace(c.id, name, number, point));
     }
 
     public void onClickRemoveButton(ActionEvent e) {

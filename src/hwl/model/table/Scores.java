@@ -21,7 +21,7 @@ public class Scores extends AbstractTable<IntPair, Score> {
         return s;
     }
 
-    private final ItemSerializer<Score> itemSerializer = new ItemSerializer<>() {
+    private static final ItemSerializer<Score> itemSerializer = new ItemSerializer<>() {
         @Override
         public Score read(DataInputStream dis) throws IOException {
             int studentId = dis.readInt();

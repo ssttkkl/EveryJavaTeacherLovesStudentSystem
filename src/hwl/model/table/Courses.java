@@ -15,11 +15,14 @@ public class Courses extends IntTable<Course> {
         super(database);
     }
 
-    public Course emplace(String name, String number, double point) {
-        int id = newPrimitiveKey();
+    public Course emplace(int id, String name, String number, double point) {
         Course c = new Course(id, name, number, point);
         put(c);
         return c;
+    }
+
+    public Course emplace(String name, String number, double point) {
+        return emplace(newPrimitiveKey(), name, number, point);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class Courses extends IntTable<Course> {
         return old;
     }
 
-    private final ItemSerializer<Course> itemSerializer = new ItemSerializer<>() {
+    private static final ItemSerializer<Course> itemSerializer = new ItemSerializer<>() {
         @Override
         public Course read(DataInputStream dis) throws IOException {
             int id = dis.readInt();
