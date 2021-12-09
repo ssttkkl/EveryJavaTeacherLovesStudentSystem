@@ -52,7 +52,8 @@ public class StudentManageWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    controller.onDoubleClickTable(table.getSelectedRow());
+                    int index = table.getRowSorter().convertRowIndexToModel(table.getSelectedRow());
+                    controller.onDoubleClickTable(index);
                 }
             }
 
